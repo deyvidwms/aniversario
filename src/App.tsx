@@ -31,7 +31,6 @@ function App() {
     const max = 100;
     const rand = Math.ceil( min + Math.random() * (max - min) );
     setShowVideo( rand % 2 === 0 ? BoasVindas : Parabens );
-    // setShowVideo( BoasVindas );
   }, []);
 
 
@@ -62,7 +61,7 @@ function App() {
         { aniversariante.length > 0 && <SubTitle>{aniversariante}</SubTitle> }
       </Container>
 
-      { isAutoPlay && <VideoPlayer  video={Parabens} /> }
+      { isAutoPlay && <VideoPlayer  video={showVideo || Parabens} /> }
 
       <MaskPermissions style={{display: showMask ? 'flex' : 'none'}}>
         <h1>Atenção!</h1>
