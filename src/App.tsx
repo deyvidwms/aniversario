@@ -14,10 +14,12 @@ import imgSeven from './assets/images/yellow-bubble.svg';
 
 import BoasVindas from './assets/videos/boas-vindas.mp4';
 import Parabens from './assets/videos/parabens.mp4';
+import ParabensManoelGomes from './assets/videos/parabens-manoel-gomes.mp4';
 import VideoPlayer from 'components/VideoPlayer';
 
 function App() {
   const [showMask, setShowMask] = useState<boolean>(true);
+  const [isLooping, setIsLooping] = useState<boolean>(false);
   const [isAutoPlay, setIsAutoPlay] = useState<boolean>(false);
   const [showVideo, setShowVideo] = useState<string>(); 
   const [aniversariante, setAniversariante] = useState<string>('');
@@ -25,12 +27,16 @@ function App() {
   useEffect( () => {
     const urlParams = new URLSearchParams(window.location.search);
     setAniversariante(urlParams.get('nome') || 'Jovem');
-    console.log(aniversariante)
 
     const min = 1;
     const max = 100;
     const rand = Math.ceil( min + Math.random() * (max - min) );
-    setShowVideo( rand % 2 === 0 ? BoasVindas : Parabens );
+    if ( urlParams.get('nome')?.toLowerCase().indexOf('wendy') !== -1 ) {
+      setShowVideo( ParabensManoelGomes );
+      setIsLooping(true);
+    } else {
+      setShowVideo( rand % 2 === 0 ? BoasVindas : Parabens );
+    }
   }, []);
 
 
@@ -61,7 +67,7 @@ function App() {
         { aniversariante.length > 0 && <SubTitle>{aniversariante}</SubTitle> }
       </Container>
 
-      { isAutoPlay && <VideoPlayer  video={showVideo || Parabens} /> }
+      { isAutoPlay && <VideoPlayer loop={isLooping} video={showVideo || Parabens} /> }
 
       <MaskPermissions style={{display: showMask ? 'flex' : 'none'}}>
         <h1>Atenção!</h1>
